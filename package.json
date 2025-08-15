@@ -45,6 +45,16 @@
         "types": "./dist/client.d.cts",
         "default": "./dist/client.cjs"
       }
+    },
+    "./util": {
+      "import": {
+        "types": "./dist/util.d.ts",
+        "default": "./dist/util.mjs"
+      },
+      "require": {
+        "types": "./dist/util.d.cts",
+        "default": "./dist/util.cjs"
+      }
     }
   },
   "files": [

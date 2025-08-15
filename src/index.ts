@@ -15,7 +15,7 @@ import type {
 } from "./types";
 import type { User } from "better-auth/types";
 import { schema } from "./schema";
-import { getOrigin } from "./util/url";
+import { getDomain } from "./util";
 
 export interface SIWSPluginOptions {
   domain: string;
@@ -95,12 +95,21 @@ export const siws = (options: SIWSPluginOptions) => {
                 "Email is required when the anonymous plugin option is disabled.",
               path: ["email"],
             }),
+          requireHeaders: true,
           requireRequest: true,
         },
         async (ctx) => {
           const { message, signature, walletAddress, cluster, email } =
             ctx.body;
+          const domain = getDomain(ctx.headers.get("origin") ?? "");
           const isAnon = options.anonymous ?? true;
+
+          if (!domain || domain !== options.domain) {
+            throw new APIError("BAD_REQUEST", {
+              message: "Domain is required.",
+              status: 400,
+            });
+          }
 
           if (!isAnon && !email) {
             throw new APIError("BAD_REQUEST", {
@@ -132,7 +141,7 @@ export const siws = (options: SIWSPluginOptions) => {
               signature,
               address: walletAddress,
               nonce,
-              domain: options.domain,
+              domain,
               cluster,
             });
 
@@ -176,23 +185,25 @@ export const siws = (options: SIWSPluginOptions) => {
 
             // Create new user if wallet is not linked to any user
             if (!user) {
-              const domain =
-                options.emailDomainName ?? getOrigin(ctx.context.baseURL);
+              const emailDomain = options.emailDomainName ?? domain;
 
               // use sns lookup for email
               const { name } =
-                (await options.snsLookup?.({ walletAddress })) ?? {};
+                (await options.snsLookup?.({
+                  walletAddress,
+                })) ?? {};
+              const walletName = `${walletAddress.slice(
+                3
+              )}...${walletAddress.slice(-3)}`;
               const userEmail =
                 !isAnon && email
                   ? email
-                  : name && domain
-                  ? `${name}@${domain}`
-                  : domain
-                  ? `${walletAddress}@${domain}`
-                  : `${walletAddress}@example.local`;
+                  : name
+                  ? `${name}@${emailDomain}`
+                  : `${walletName}@${emailDomain}`;
 
               user = await ctx.context.internalAdapter.createUser({
-                name: name ?? walletAddress,
+                name: name ?? walletName,
                 email: userEmail,
               });
 

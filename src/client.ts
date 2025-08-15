@@ -1,9 +1,9 @@
-import type { siws } from ".";
+import type { web3 } from ".";
 import type { BetterAuthClientPlugin } from "better-auth/client";
 
-export const siwsClient = () => {
+export const web3Client = () => {
   return {
-    id: "siws",
-    $InferServerPlugin: {} as ReturnType<typeof siws>,
+    id: "web3",
+    $InferServerPlugin: {} as ReturnType<typeof web3>,
   } satisfies BetterAuthClientPlugin;
 };

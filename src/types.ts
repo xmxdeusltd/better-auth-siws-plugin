@@ -6,11 +6,51 @@ export interface WalletAddress {
   id: string;
   userId: string;
   address: string;
+  type: "svm" | "evm";
+  chainId: number | null;
   isPrimary: boolean;
   createdAt: Date;
 }
 
-export interface SIWSVerifyMessageArgs {
+interface CacaoHeader {
+  t: "caip122";
+}
+
+// Signed Cacao (CAIP-74)
+interface CacaoPayload {
+  domain: string;
+  aud: string;
+  nonce: string;
+  iss: string;
+  version?: string;
+  iat?: string;
+  nbf?: string;
+  exp?: string;
+  statement?: string;
+  requestId?: string;
+  resources?: string[];
+  type?: string;
+}
+
+interface Cacao {
+  h: CacaoHeader;
+  p: CacaoPayload;
+  s: {
+    t: "eip191" | "eip1271";
+    s: string;
+    m?: string;
+  };
+}
+
+export interface EVMVerifyMessageArgs {
+  message: string;
+  signature: string;
+  address: string;
+  chainId: number;
+  cacao?: Cacao;
+}
+
+export interface SVMVerifyMessageArgs {
   message: string;
   signature: string;
   address: string;
@@ -29,6 +69,15 @@ export interface SIWSVerifyMessageArgs {
    * Helps prevent cross-environment replay.
    */
   cluster?: string;
+}
+
+export interface ENSLookupArgs {
+  walletAddress: string;
+}
+
+export interface ENSLookupResult {
+  name: string;
+  avatar: string;
 }
 
 export interface SNSLookupArgs {

@@ -1,23 +1,26 @@
 {
-  "name": "better-auth-siws-plugin",
+  "name": "better-auth-web3",
   "version": "0.1.3",
-  "description": "Sign In With Solana Wallet plugin for better-auth",
+  "description": "SVM and EVM Wallet plugin for better-auth",
   "keywords": [
     "better-auth",
     "auth",
     "web3",
+    "svm",
     "solana",
+    "evm",
+    "ethereum",
     "typescript",
     "security",
     "plugin"
   ],
-  "homepage": "https://github.com/xmxdeusltd/better-auth-siws-plugin#readme",
+  "homepage": "https://github.com/xmxdeusltd/better-auth-web3#readme",
   "bugs": {
-    "url": "https://github.com/xmxdeusltd/better-auth-siws-plugin/issues"
+    "url": "https://github.com/xmxdeusltd/better-auth-web3/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xmxdeusltd/better-auth-siws-plugin.git"
+    "url": "git+https://github.com/xmxdeusltd/better-auth-web3.git"
   },
   "license": "MIT",
   "author": "xmxdeusltd",
@@ -64,6 +67,7 @@
   "peerDependencies": {
     "better-auth": ">=1.3.5",
     "better-call": ">=1.0.13",
+    "@noble/hashes": "^1.2.0",
     "zod": "^3.25.0 || ^4.0.0"
   },
   "devDependencies": {

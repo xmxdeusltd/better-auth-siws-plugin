@@ -1,7 +1,7 @@
 import type { AuthPluginSchema } from "better-auth/types";
 
 export const schema = {
-  walletAddressSol: {
+  walletAddress: {
     fields: {
       userId: {
         type: "string",
@@ -11,9 +11,25 @@ export const schema = {
         },
         required: true,
       },
+      accountId: {
+        type: "string",
+        references: {
+          model: "account",
+          field: "id",
+        },
+        required: true,
+      },
+      type: {
+        type: "string",
+        required: true,
+      },
       address: {
         type: "string",
         required: true,
+      },
+      chainId: {
+        type: "number",
+        required: false,
       },
       isPrimary: {
         type: "boolean",

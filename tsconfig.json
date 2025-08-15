@@ -1,16 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "composite": false,
     "declaration": true,
     "declarationMap": false,
     "emitDeclarationOnly": false,
     "esModuleInterop": true,
-    "skipLibCheck": true,
     "strict": true,
-    "outDir": "dist",
-    "types": []
+    "outDir": "dist"
   },
+  "exclude": ["**/dist", "node_modules"],
+  "references": [],
   "include": ["src"]
 }
